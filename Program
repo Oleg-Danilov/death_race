@@ -1,0 +1,154 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Random A = new Random();
+        Int32 move_number = 1, Choice = 0, Key = 0, S1 = 0, S2 = 0, life_1 = 100, life_2 = 100;
+        String name_1, name_2;
+        Console.WriteLine("Игра \"Смертельная Гонка\"\n\nДва игрока учавствуют в гонках на выживание. Правила гонки просты — необходимо  доехать до финиша или уничтожить своего противника.");
+        Console.ReadKey();
+        Console.Clear();
+        Console.WriteLine("Введите имя первому гонщику:");
+        name_1 = Console.ReadLine();
+        Console.WriteLine("Введите имя второму гонщику:");
+        name_2 = Console.ReadLine();
+        Console.WriteLine("Готовы к смертельной гонке?");
+        Console.ReadKey();
+        Console.Clear();
+
+        while (true)
+        {
+            do // меню первого игрока
+            {
+                Console.Clear();
+                Console.WriteLine("Ход {0}\n\n{1}: прочность машины = {2}, пройденный путь = {3}\n{4}: прочность машины = {5}, пройденный путь = {6}\n\nХодит {7}\n\nВыберите действие:", move_number, name_1, life_1, S1, name_2, life_2, S2, name_1);
+                Console.WriteLine(((Choice == 0) ? ">" : " ") + "1. Активировать ускорение");
+                if (Choice == 0) Console.WriteLine("     дает вам дополнительную скорость");
+                Console.WriteLine(((Choice == 1) ? ">" : " ") + "2. Включить пулемет");
+                if (Choice == 1) Console.WriteLine("     высокая скорострельность, но малая бронепробиваемость");
+                Console.WriteLine(((Choice == 2) ? ">" : " ") + "3. Запустить ракету");
+                if (Choice == 2) Console.WriteLine("     мощная, но высокий шанс промаха");
+                Console.WriteLine(((Choice == 3) ? ">" : " ") + "4. Бросить шипы");
+                if (Choice == 3) Console.WriteLine("     уменьшют скорость противника");
+                Console.WriteLine(((Choice == 4) ? ">" : " ") + "5. Активировать заряд ЭМИ");
+                if (Choice == 4) Console.WriteLine("     создает неполадки в работе бортового компьютера");
+                Console.WriteLine(((Choice == 5) ? ">" : " ") + "6. Телепортация");
+                if (Choice == 5) Console.WriteLine("     при внимательном осмотре можно обнаружить надпись: \"сделано в Китае\"");
+                Console.WriteLine(((Choice == 6) ? ">" : " ") + "7. Странный чемоданчик");
+                if (Choice == 6) Console.WriteLine("     кто знает, что он делает?");
+
+                Key = (Int32)Console.ReadKey().Key;
+                if (Key == 38) Choice--;
+                if (Key == 40) Choice++;
+                if (Key == 13)
+                {
+                    if (Choice == 0) if ((A.Next(1, 6)) < 5) S1 += (A.Next(5, 11));
+                    if (Choice == 1) if ((A.Next(1, 6)) < 5) life_2 -= (A.Next(15, 26));
+                    if (Choice == 2) if ((A.Next(1, 6)) < 3) life_2 -= (A.Next(35, 41));
+                    if (Choice == 3) if (S1 > S2) if ((A.Next(1, 6)) < 5) S2 -= (A.Next(7, 13));
+                    if (Choice == 4) if ((A.Next(1, 6)) < 5) if (S1 < S2) S2 -= (A.Next(7, 13));
+                    if (Choice == 5)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("На кого будем активировать? на меня/на противника\n\n{0}: пройденный путь = {1}\n{2}: пройденный путь = {3}\n", name_1, S1, name_2, S2);
+                            if (Console.ReadLine() == "на меня")
+                            {
+                                if (A.Next(1, 6) < 3) S1 = (A.Next(0, 101));
+                            }                         
+                            else if (A.Next(1, 6) < 3) S2 = (A.Next(0, 101));
+                        }                                                            
+                    if (Choice == 6) if ((A.Next(1, 21)) == 1)
+                        {
+                        Console.Clear();
+                        Console.WriteLine("Вы уничтожили своего противника, но вместе с ним стерли в пух и прах всю Землю.");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                        }
+                    S1 += A.Next(10, 16);
+                    break;
+                }
+
+                if (Choice < 0) Choice = 6;
+                if (Choice > 6) Choice = 0;
+
+            } while (true);
+
+            if (life_2 <= 0 || S1 >= 100)
+            {
+                Console.Clear();
+                if (life_2 <= 0) Console.WriteLine("Игрок {0} уничтожил игрока {1}!", name_1, name_2);
+                else Console.WriteLine("Игрок {0} достиг финиша!", name_1);
+                break;
+            }
+
+            do // меню второго игрока
+            {
+                Console.Clear();
+                Console.WriteLine("Ход {0}\n\n{1}: прочность машины = {2}, пройденный путь = {3}\n{4}: прочность машины = {5}, пройденный путь = {6}\n\nХодит {7}\n\nВыберите действие:", move_number, name_1, life_1, S1, name_2, life_2, S2, name_2);
+                Console.WriteLine(((Choice == 0) ? ">" : " ") + "1. Активировать ускорение");
+                if (Choice == 0) Console.WriteLine("     дает вам дополнительную скорость");
+                Console.WriteLine(((Choice == 1) ? ">" : " ") + "2. Включить пулемет");
+                if (Choice == 1) Console.WriteLine("     высокая скорострельность, но малая бронепробиваемость");
+                Console.WriteLine(((Choice == 2) ? ">" : " ") + "3. Запустить ракету");
+                if (Choice == 2) Console.WriteLine("     мощная, но высокий шанс промаха");
+                Console.WriteLine(((Choice == 3) ? ">" : " ") + "4. Бросить шипы");
+                if (Choice == 3) Console.WriteLine("     уменьшют скорость противника");
+                Console.WriteLine(((Choice == 4) ? ">" : " ") + "5. Активировать заряд ЭМИ");
+                if (Choice == 4) Console.WriteLine("     создает неполадки в работе бортового компьютера");
+                Console.WriteLine(((Choice == 5) ? ">" : " ") + "6. Телепортация");
+                if (Choice == 5) Console.WriteLine("     при внимательном осмотре можно обнаружить надпись: \"сделано в Китае\"");
+                Console.WriteLine(((Choice == 6) ? ">" : " ") + "7. Странный чемоданчик");
+                if (Choice == 6) Console.WriteLine("     кто знает, что он делает?");
+
+                Key = (Int32)Console.ReadKey().Key;
+
+                if (Key == 38) Choice--;
+                if (Key == 40) Choice++;
+                if (Key == 13)
+                {                   
+                    if (Choice == 0) if ((A.Next(1, 6)) < 5) S2 += (A.Next(5, 11));
+                    if (Choice == 1) if ((A.Next(1, 6)) < 5) life_1 -= (A.Next(15, 26));
+                    if (Choice == 2) if ((A.Next(1, 6)) < 3) life_1 -= (A.Next(35, 41));
+                    if (Choice == 3) if (S2 > S1) if ((A.Next(1, 6)) < 5) S1 -= (A.Next(7, 13));
+                    if (Choice == 4) if ((A.Next(1, 6)) < 5) if (S2 < S1) S1 -= (A.Next(7, 13));
+                    if (Choice == 5)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("На кого будем активировать? на меня/на противника\n\n{0}: пройденный путь = {1}\n{2}: пройденный путь = {3}\n", name_1, S1, name_2, S2);
+                            if (Console.ReadLine() == "на меня")
+                            {
+                                if (A.Next(1, 6) < 3) S2 = (A.Next(0, 101));
+                            }                               
+                            else if (A.Next(1, 6) < 3) S1 = (A.Next(0, 101));
+                        }                                                         
+                    if (Choice == 6) if ((A.Next(1, 21)) == 1)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Вы уничтожили своего противника, но вместе с ним стерли в пух и прах всю Землю.");
+                            Console.ReadKey();
+                            Environment.Exit(0);                           
+                        }
+                    S2 += A.Next(10, 16);
+                    break;
+                }
+
+                if (Choice < 0) Choice = 6;
+                if (Choice > 6) Choice = 0;
+
+            } while (true);
+
+            if (life_1 <= 0 || S2 >= 100)
+            {
+                Console.Clear();
+                if (life_1 <= 0) Console.WriteLine("Игрок {0} уничтожил игрока {1}!", name_2, name_1);
+                else Console.WriteLine("Игрок {0} достиг финиша!", name_2);
+                break;
+            }
+
+            move_number++;
+        }
+        Console.ReadKey();
+    }
+}
